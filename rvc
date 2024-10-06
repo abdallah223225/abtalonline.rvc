@@ -1,0 +1,35 @@
+import tensorflow as tf
+from tensorflow import keras
+
+ تعريف النموذج
+def create_model():
+    model = keras.Sequential([
+        keras.layers.Input(shape=(None, input_dim)),
+        keras.layers.LSTM(256, return_sequences=True),
+        keras.layers.LSTM(256, return_sequences=True),
+        keras.layers.Dense(output_dim)
+    ])
+    return model
+
+ تدريب النموذج
+def train_model(model, X_train, y_train, epochs=100):
+    model.compile(optimizer='adam', loss='mse')
+    model.fit(X_train, y_train, epochs=epochs)
+
+ توليد الصوت
+def generate_audio(model, input_text):
+     تحويل النص إلى تمثيل رقمي
+    input_sequence = text_to_sequence(input_text)
+    
+    توليد ميزات الصوت
+    generated_features = model.predict(input_sequence)
+    
+    تحويل الميزات إلى موجات صوتية
+    audio_waveform = features_to_waveform(generated_features)
+    
+    return audio_waveform
+
+ استخدام النموذج
+model = create_model()
+train_model(model, X_train, y_train)
+generated_audio = generate_audio(model, "مرحبا، هذا صوت مولد بواسطة الذكاء الاصطناعي")
